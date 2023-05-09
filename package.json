@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "concurrently \"npm run start-proxy\" \"vue-cli-service serve\"",
+    "dev": "concurrently \"npm run start-proxy\" \"vite\"",
     "start-proxy": "node proxy.js",
-    "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "build": "vite build",
+    "test": "vitest",
+    "lint": "eslint --ext .js,.ts,.vue src tests"
+
   },
   "dependencies": {
+    "@vitejs/plugin-vue": "^4.2.1",
     "axios": "^1.4.0",
     "core-js": "^3.8.3",
     "cors": "^2.8.5",
@@ -21,16 +23,10 @@
     "@types/jest": "^27.0.1",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
-    "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-plugin-typescript": "~5.0.0",
-    "@vue/cli-plugin-unit-jest": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
     "@vue/eslint-config-typescript": "^9.1.0",
     "@vue/test-utils": "^2.0.0-0",
     "@vue/vue3-jest": "^27.0.0-alpha.1",
     "axios-mock-adapter": "^1.21.4",
-    "babel-jest": "^27.0.6",
     "concurrently": "^8.0.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -39,7 +35,9 @@
     "jest": "^27.0.5",
     "prettier": "^2.4.1",
     "ts-jest": "^27.0.4",
-    "typescript": "~4.5.5"
+    "typescript": "~4.5.5",
+    "vite": "^4.3.5",
+    "vitest": "^0.31.0"
   },
   "eslintConfig": {
     "root": true,
@@ -73,11 +71,5 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ],
-  "jest": {
-    "preset": "@vue/cli-plugin-unit-jest/presets/typescript-and-babel",
-    "transformIgnorePatterns": [
-      "/node_modules/(?!axios)"
-    ]
-  }
+  ]
 }

@@ -1,31 +1,30 @@
-// api.service.spec.ts
+import { describe, test, expect, beforeEach, afterEach } from 'vitest';
+import { ApiService } from '@/services/api.service';
+import MockAdapter from 'axios-mock-adapter';
 
-import { ApiService } from "@/services/api.service";
-import MockAdapter from "axios-mock-adapter";
-
-describe("ApiService", () => {
+describe('ApiService', () => {
   let apiService: ApiService;
   let mockAxios: MockAdapter;
 
-  beforeEach(() => {
+beforeEach(() => {
     apiService = new ApiService();
     mockAxios = new MockAdapter(apiService.getAxiosInstance());
   });
 
-  afterEach(() => {
+afterEach(() => {
     mockAxios.reset();
   });
 
-  it("fetchJobOffersCount doit envoyer une requête GET et retourner le nombre d'offres d'emploi pour un département et un langage donnés", async () => {
+  test('fetchJobOffersCount doit envoyer une requête GET et retourner le nombre d\'offres d\'emploi pour un département et un langage donnés', async () => {
     // Setup
-    const departmentCode = "75";
-    const language = "java";
+    const departmentCode = '75';
+    const language = 'java';
     const mockJobOffersCount = 42;
     const expectedUrl = apiService.buildJobOffersSearchUrl(departmentCode, language);
 
     // Mock du token pour la méthode refreshToken
-    const mockToken = "mock-token";
-    const proxyUrl = "http://localhost:3000/get_token";
+    const mockToken = 'mock-token';
+    const proxyUrl = 'http://localhost:3000/get_token';
     mockAxios.onPost(proxyUrl).reply(200, {
       access_token: mockToken,
       expires_in: 3600,
@@ -37,7 +36,7 @@ describe("ApiService", () => {
       if (config.headers && config.headers.Authorization) {
         expect(config.headers.Authorization).toBeDefined();
       } else {
-        throw new Error("Les headers de la requête sont manquants.");
+        throw new Error('Les headers de la requête sont manquants.');
       }
 
       return [200, { resultats: new Array(mockJobOffersCount).fill({}) }];

@@ -1,5 +1,3 @@
-// services/api.service.ts
-
 import axios, { AxiosInstance } from "axios";
 
 // Définition de l'interface pour la réponse de l'API
