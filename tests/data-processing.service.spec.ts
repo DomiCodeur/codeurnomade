@@ -23,7 +23,7 @@ describe('DataProcessingService', () => {
     const percentages = dataProcessingService.calculateLanguagePercentages(jobOfferCounts);
 
     // Définit le résultat attendu trié par ordre décroissant de pourcentage
-    const expectedPercentages: LanguagePercentage[] = [
+const expectedPercentages: LanguagePercentage[] = [
       { language: 'javascript', percentage: 34 },
       { language: 'python', percentage: 22 },
       { language: 'java', percentage: 11 },
