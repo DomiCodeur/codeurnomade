@@ -8,9 +8,7 @@ import * as d3 from "d3";
 
 export default defineComponent({
   name: "MapComponent",
-  emits: {
-    "departement-select": null, // Déclarez l'événement "departement-select"
-  },
+  emits: ['departement-select'],
   setup(props, ctx) {
     // Fonction pour dessiner la carte de France
     const drawFranceMap = async () => {
@@ -49,7 +47,6 @@ export default defineComponent({
             // Envoi de l'identifiant du département vers le composant parent
             const departementCode = d.properties.code;
             ctx.emit("departement-select", departementCode);
-            console.log("departmentcode", departementCode);
           });
       } catch (error) {
         console.error("Erreur lors du dessin de la carte de France :", error);
