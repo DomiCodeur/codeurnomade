@@ -8,7 +8,7 @@ import * as d3 from "d3";
 
 export default defineComponent({
   name: "MapComponent",
-  emits: ['departement-select'],
+  emits: ["departement-select"],
   setup(props, ctx) {
     // Fonction pour dessiner la carte de France
     const drawFranceMap = async () => {
