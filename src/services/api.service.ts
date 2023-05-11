@@ -48,14 +48,20 @@ export class ApiService {
       const now = new Date();
       this.accessTokenExpiration = new Date(now.getTime() + expiresIn);
 
-      // Stocke le token et sa date d'expiration dans le local storage
+      this.saveAccessTokenToLocalStorage(); // Enregistre le token dans le localStorage
+    } catch (error) {
+      console.error("Erreur lors de la récupération du token:", error);
+    }
+  }
+
+  // Méthode privée pour enregistrer le token dans le localStorage
+  private saveAccessTokenToLocalStorage(): void {
+    if (this.accessToken && this.accessTokenExpiration) {
       localStorage.setItem("accessToken", this.accessToken);
       localStorage.setItem(
         "accessTokenExpiration",
         this.accessTokenExpiration.toISOString()
       );
-    } catch (error) {
-      console.error("Erreur lors de la récupération du token:", error);
     }
   }
 
