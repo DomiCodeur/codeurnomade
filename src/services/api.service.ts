@@ -20,13 +20,9 @@ export class ApiService {
     this.axiosInstance = axios.create({
       baseURL: "https://api.pole-emploi.io/partenaire/offresdemploi/v2",
     });
-  }
 
-  public buildJobOffersSearchUrl(
-    departmentCode: string,
-    language: string
-  ): string {
-    return `/offres/search?departement=${departmentCode}&motsCles=${language}`;
+    // Récupère le token depuis le local storage lors de la création de l'instance
+    this.retrieveTokenFromLocalStorage();
   }
 
   // Méthode privée pour actualiser le token d'accès si nécessaire
@@ -51,9 +47,36 @@ export class ApiService {
       const expiresIn = response.data.expires_in * 1000; // Convertit en millisecondes
       const now = new Date();
       this.accessTokenExpiration = new Date(now.getTime() + expiresIn);
+
+      // Stocke le token et sa date d'expiration dans le local storage
+      localStorage.setItem("accessToken", this.accessToken);
+      localStorage.setItem(
+        "accessTokenExpiration",
+        this.accessTokenExpiration.toISOString()
+      );
     } catch (error) {
       console.error("Erreur lors de la récupération du token:", error);
     }
+  }
+
+  // Méthode pour récupérer le token depuis le local storage lors du démarrage de l'application
+  private retrieveTokenFromLocalStorage(): void {
+    const storedAccessToken = localStorage.getItem("accessToken");
+    const storedAccessTokenExpiration = localStorage.getItem(
+      "accessTokenExpiration"
+    );
+
+    if (storedAccessToken && storedAccessTokenExpiration) {
+      this.accessToken = storedAccessToken;
+      this.accessTokenExpiration = new Date(storedAccessTokenExpiration);
+    }
+  }
+
+  public buildJobOffersSearchUrl(
+    departmentCode: string,
+    language: string
+  ): string {
+    return `/offres/search?departement=${departmentCode}&motsCles=${language}`;
   }
 
   // Méthode pour récupérer le nombre d'offres d'emploi pour un département et un langage donnés
@@ -81,5 +104,23 @@ export class ApiService {
   // Méthode publique pour obtenir l'instance Axios (utilisée pour les tests)
   public getAxiosInstance(): AxiosInstance {
     return this.axiosInstance;
+  }
+
+  // Méthode publique pour vérifier si le token est valide
+  public isAccessTokenValid(): boolean {
+    return (
+      this.accessToken !== null &&
+      this.accessTokenExpiration !== null &&
+      new Date() <
+        new Date(this.accessTokenExpiration.getTime() - 5 * 60 * 1000)
+    );
+  }
+
+  // Méthode publique pour supprimer le token du local storage
+  public clearToken(): void {
+    this.accessToken = null;
+    this.accessTokenExpiration = null;
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("accessTokenExpiration");
   }
 }
