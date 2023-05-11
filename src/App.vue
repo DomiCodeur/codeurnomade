@@ -10,13 +10,13 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import TestApiComponent from "./components/TestApiComponent.vue";
-import MapComponent  from "./components/MapComponent.vue" 
+import MapComponent from "./components/MapComponent.vue";
 
 export default defineComponent({
   name: "App",
   components: {
     TestApiComponent,
-    MapComponent
+    MapComponent,
   },
   setup() {
     const selectedDepartement = ref(""); // Variable pour stocker le département sélectionné

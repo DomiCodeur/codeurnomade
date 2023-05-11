@@ -8,7 +8,7 @@ import * as d3 from "d3";
 
 export default defineComponent({
   name: "MapComponent",
-  emits: ['departement-select'],
+  emits: ["departement-select"],
   setup(props, ctx) {
     // Fonction pour dessiner la carte de France
     const drawFranceMap = async () => {
@@ -28,7 +28,9 @@ export default defineComponent({
           .attr("height", height);
 
         // Définition de la projection de la carte
-        const projection = d3.geoMercator().fitSize([width, height], franceDepartements);
+        const projection = d3
+          .geoMercator()
+          .fitSize([width, height], franceDepartements);
 
         // Définition de la fonction pour dessiner les chemins géographiques
         const pathGenerator = d3.geoPath().projection(projection);
@@ -64,8 +66,8 @@ export default defineComponent({
 </script>
 
 <style>
-  #france-map {
-    width: 800px;
-    height: 600px;
-  }
+#france-map {
+  width: 800px;
+  height: 600px;
+}
 </style>
