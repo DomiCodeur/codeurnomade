@@ -78,7 +78,7 @@ export class ApiService {
     }
   }
 
-  public buildJobOffersSearchUrl(
+  private buildJobOffersSearchUrl(
     departmentCode: string,
     language: string
   ): string {
@@ -108,12 +108,12 @@ export class ApiService {
   }
 
   // Méthode publique pour obtenir l'instance Axios (utilisée pour les tests)
-  public getAxiosInstance(): AxiosInstance {
+  private getAxiosInstance(): AxiosInstance {
     return this.axiosInstance;
   }
 
   // Méthode publique pour vérifier si le token est valide
-  public isAccessTokenValid(): boolean {
+  private isAccessTokenValid(): boolean {
     return (
       this.accessToken !== null &&
       this.accessTokenExpiration !== null &&
@@ -123,7 +123,7 @@ export class ApiService {
   }
 
   // Méthode publique pour supprimer le token du local storage
-  public clearToken(): void {
+  private clearToken(): void {
     this.accessToken = null;
     this.accessTokenExpiration = null;
     localStorage.removeItem("accessToken");

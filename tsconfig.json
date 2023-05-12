@@ -15,7 +15,8 @@
     "types": [
       "jest",
       "vite/client",
-      "d3"
+      "d3",
+      "node"
     ],
     "paths": {
       "@/*": [
@@ -37,7 +38,7 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "assets/**/*"
-, "departements.geojson.d.ts"  ],
+, "departements.geojson.d.ts", "src/plugins/api.service.ts"  ],
   "exclude": [
     "node_modules"
   ]

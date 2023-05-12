@@ -1,10 +1,17 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import { LMap, LTileLayer, LGeoJson } from "@vue-leaflet/vue-leaflet";
-import "leaflet/dist/leaflet.css";
+import { createApp } from 'vue';
+import App from './App.vue';
+import { ApiService } from './services/api.service';
+import { DataProcessingService } from './services/data-processing.service';
+import { JobOfferOrchestratorService } from './services/job-offer-orchestrator.service';
+
+const apiServiceInstance = new ApiService();
+const dataProcessingInstance = new DataProcessingService();
+const jobOfferOrchestratorInstance = new JobOfferOrchestratorService(apiServiceInstance, dataProcessingInstance);
 
 const app = createApp(App);
-app.component("l-map", LMap);
-app.component("l-tile-layer", LTileLayer);
-app.component("l-geo-json", LGeoJson);
-app.mount("#app");
+
+app.config.globalProperties.$apiService = apiServiceInstance;
+app.config.globalProperties.$dataProcessingService = dataProcessingInstance;
+app.config.globalProperties.$jobOfferOrchestratorService = jobOfferOrchestratorInstance;
+
+app.mount('#app');

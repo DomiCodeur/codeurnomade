@@ -1,16 +1,15 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <TestApiComponent />
-  <MapComponent @departement-select="handleDepartementSelect" />
-  <div v-if="selectedDepartement">
-    Département sélectionné : {{ selectedDepartement }}
+  <div>
+    <TestApiComponent />
+    <MapComponent @departement-select="handleDepartementSelect" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, getCurrentInstance } from "vue";
 import TestApiComponent from "./components/TestApiComponent.vue";
 import MapComponent from "./components/MapComponent.vue";
+
 
 export default defineComponent({
   name: "App",
@@ -19,16 +18,21 @@ export default defineComponent({
     MapComponent,
   },
   setup() {
-    const selectedDepartement = ref(""); // Variable pour stocker le département sélectionné
+    const selectedDepartement = ref("");
+    const jobOfferOrchestratorInstance = getCurrentInstance()?.appContext.config.globalProperties.$jobOfferOrchestratorService;
 
-    // Fonction pour gérer la sélection du département
     const handleDepartementSelect = (departementCode: string) => {
-      selectedDepartement.value = departementCode; // Stockage de la valeur émise dans la variable
-    };
+  selectedDepartement.value = departementCode;
+  jobOfferOrchestratorInstance?.fetchJobOffersCountsForAllLanguages(
+    departementCode
+  );
+};
+
 
     return {
       selectedDepartement,
       handleDepartementSelect,
+      
     };
   },
 });
