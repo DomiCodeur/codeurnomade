@@ -24,7 +24,6 @@ export class JobOfferOrchestratorService {
       swift: 0,
     };
     const languages = Object.keys(jobOfferCounts);
-
     for (const language of languages) {
       try {
         const count = await this.apiService.fetchJobOffersCount(

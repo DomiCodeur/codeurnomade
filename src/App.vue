@@ -23,6 +23,7 @@ import MapComponent from "./components/MapComponent.vue";
 import LanguageTableComponent from "./components/LanguageTableComponent.vue";
 import { LanguagePercentage } from "./types";
 
+
 export default defineComponent({
   name: "App",
   components: {
