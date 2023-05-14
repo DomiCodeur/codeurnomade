@@ -104,7 +104,7 @@ export class ApiService {
     );
 
     // Extrait la longueur du tableau "resultats" de la réponse et la retourne
-    return response.data.resultats.length;
+    return response.data.resultats?.length ?? 0;
   }
 
   // Méthode publique pour obtenir l'instance Axios (utilisée pour les tests)

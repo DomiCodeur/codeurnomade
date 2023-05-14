@@ -1,7 +1,18 @@
 <template>
-  <div>
-    <TestApiComponent />
-    <MapComponent @departement-select="handleDepartementSelect" />
+  <div class="container">
+    <div class="top-container">
+      <TestApiComponent />
+    </div>
+    <div class="map-container">
+      <MapComponent @departement-select="handleDepartementSelect" />
+    </div>
+    <div class="table-container">
+      <LanguageTableComponent
+        :languages="languages"
+        :selectedDepartement="selectedDepartement"
+        :loading="loading"
+      />
+    </div>
   </div>
 </template>
 
@@ -9,42 +20,67 @@
 import { defineComponent, ref, getCurrentInstance } from "vue";
 import TestApiComponent from "./components/TestApiComponent.vue";
 import MapComponent from "./components/MapComponent.vue";
-
+import LanguageTableComponent from "./components/LanguageTableComponent.vue";
+import { LanguagePercentage } from "./types";
 
 export default defineComponent({
   name: "App",
   components: {
     TestApiComponent,
     MapComponent,
+    LanguageTableComponent
   },
   setup() {
     const selectedDepartement = ref("");
-    const jobOfferOrchestratorInstance = getCurrentInstance()?.appContext.config.globalProperties.$jobOfferOrchestratorService;
+    const languages = ref<LanguagePercentage[]>([]);
+    const loading = ref(false);
 
-    const handleDepartementSelect = (departementCode: string) => {
-  selectedDepartement.value = departementCode;
-  jobOfferOrchestratorInstance?.fetchJobOffersCountsForAllLanguages(
-    departementCode
-  );
-};
+    const jobOfferOrchestratorInstance =
+      getCurrentInstance()?.appContext.config.globalProperties
+        .$jobOfferOrchestratorService;
 
+    const handleDepartementSelect = async (departementCode: string) => {
+      loading.value = true;
+      selectedDepartement.value = departementCode;
+      const fetchedLanguages = await jobOfferOrchestratorInstance?.fetchJobOffersCountsForAllLanguages(
+        departementCode
+      );
+      if (fetchedLanguages) {
+        languages.value = fetchedLanguages;
+      }
+      loading.value = false;
+    };
 
     return {
       selectedDepartement,
+      languages,
       handleDepartementSelect,
-      
+      loading,
     };
   },
 });
 </script>
 
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.top-container {
+  width: 100%;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin-bottom: 1rem;
+}
+
+.map-container {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.table-container {
+  flex: 1;
 }
 </style>

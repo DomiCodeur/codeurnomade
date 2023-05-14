@@ -1,6 +1,6 @@
-import { ApiService } from './api.service';
-import { DataProcessingService } from './data-processing.service';
-import { LanguagePercentage, JobOfferCounts } from '@/types';
+import { ApiService } from "./api.service";
+import { DataProcessingService } from "./data-processing.service";
+import { LanguagePercentage, JobOfferCounts } from "@/types";
 
 export class JobOfferOrchestratorService {
   constructor(
@@ -19,12 +19,12 @@ export class JobOfferOrchestratorService {
       go: 0,
       csharp: 0,
       kotlin: 0,
-      'c++': 0,
+      "c++": 0,
       ruby: 0,
       swift: 0,
     };
     const languages = Object.keys(jobOfferCounts);
-  
+
     for (const language of languages) {
       try {
         const count = await this.apiService.fetchJobOffersCount(
@@ -33,12 +33,15 @@ export class JobOfferOrchestratorService {
         );
         jobOfferCounts[language] = count !== undefined ? count : 0;
       } catch (error) {
-        console.error(`Erreur lors de la récupération des offres d'emploi pour le langage ${language}:`, error);
+        console.error(
+          `Erreur lors de la récupération des offres d'emploi pour le langage ${language}:`,
+          error
+        );
       }
     }
-  
-    const percentages = this.dataProcessingService.calculateLanguagePercentages(jobOfferCounts);
+
+    const percentages =
+      this.dataProcessingService.calculateLanguagePercentages(jobOfferCounts);
     return percentages;
   }
-  
 }

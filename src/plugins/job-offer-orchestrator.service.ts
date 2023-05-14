@@ -4,6 +4,7 @@ import { JobOfferOrchestratorService } from "../services/job-offer-orchestrator.
 export const JobOfferOrchestratorPlugin: Plugin = {
   install: (app: App) => {
     const jobOfferOrchestratorInstance = new JobOfferOrchestratorService();
-    app.config.globalProperties.$jobOfferOrchestratorService = jobOfferOrchestratorInstance;
+    app.config.globalProperties.$jobOfferOrchestratorService =
+      jobOfferOrchestratorInstance;
   },
 };
