@@ -6,5 +6,3 @@ export interface LanguagePercentage {
   language: string;
   percentage: number;
 }
-
-

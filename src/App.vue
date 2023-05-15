@@ -62,7 +62,6 @@ export default defineComponent({
 });
 </script>
 
-
 <style>
 .container {
   display: flex;
