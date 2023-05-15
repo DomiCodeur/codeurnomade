@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="top-container">
-      <DepartmentInputComponent @departement-select="handleDepartementSelect"/>
+      <DepartmentInputComponent @departement-select="handleDepartementSelect" />
     </div>
     <div class="map-container">
       <MapComponent @departement-select="handleDepartementSelect" />
@@ -28,7 +28,7 @@ export default defineComponent({
   components: {
     DepartmentInputComponent,
     MapComponent,
-    LanguageTableComponent
+    LanguageTableComponent,
   },
   setup() {
     const selectedDepartement = ref("");
@@ -42,9 +42,10 @@ export default defineComponent({
     const handleDepartementSelect = async (departementCode: string) => {
       loading.value = true;
       selectedDepartement.value = departementCode;
-      const fetchedLanguages = await jobOfferOrchestratorInstance?.fetchJobOffersCountsForAllLanguages(
-        departementCode
-      );
+      const fetchedLanguages =
+        await jobOfferOrchestratorInstance?.fetchJobOffersCountsForAllLanguages(
+          departementCode
+        );
       if (fetchedLanguages) {
         languages.value = fetchedLanguages;
       }
@@ -60,7 +61,6 @@ export default defineComponent({
   },
 });
 </script>
-
 
 <style>
 .container {

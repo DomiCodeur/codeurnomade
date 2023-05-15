@@ -1,29 +1,30 @@
 <template>
   <div class="rounded-container">
-    <h2>Langages de programmation les plus demandés dans le département {{ selectedDepartement }}</h2>
+    <h2>
+      Langages de programmation les plus demandés dans le département
+      {{ selectedDepartement }}
+    </h2>
     <div v-if="loading" class="loading">
-      <img src="spinner.gif" alt="Chargement..."/>
+      <img src="spinner.gif" alt="Chargement..." />
     </div>
     <transition name="fade">
       <table v-if="!loading && languages.length">
-          <thead>
-            <tr>
-              <th>Langage</th>
-              <th>Pourcentage</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="language in languages" :key="language.language">
-              <td>{{ language.language }}</td>
-              <td>{{ language.percentage }}%</td>
-            </tr>
-          </tbody>
-        </table>
-      </transition>
+        <thead>
+          <tr>
+            <th>Langage</th>
+            <th>Pourcentage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="language in languages" :key="language.language">
+            <td>{{ language.language }}</td>
+            <td>{{ language.percentage }}%</td>
+          </tr>
+        </tbody>
+      </table>
+    </transition>
   </div>
 </template>
-
-
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
@@ -48,14 +49,13 @@ export default defineComponent({
 });
 </script>
 
-
 <style scoped>
 .rounded-container {
   border: 1px solid #ddd;
   border-radius: 15px;
   padding: 2rem;
   margin: 1rem;
-  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
