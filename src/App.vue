@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="top-container">
-      <TestApiComponent />
+      <DepartmentInputComponent @departement-select="handleDepartementSelect"/>
     </div>
     <div class="map-container">
       <MapComponent @departement-select="handleDepartementSelect" />
@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, getCurrentInstance } from "vue";
-import TestApiComponent from "./components/TestApiComponent.vue";
+import DepartmentInputComponent from "./components/DepartmentInputComponent.vue";
 import MapComponent from "./components/MapComponent.vue";
 import LanguageTableComponent from "./components/LanguageTableComponent.vue";
 import { LanguagePercentage } from "./types";
@@ -26,7 +26,7 @@ import { LanguagePercentage } from "./types";
 export default defineComponent({
   name: "App",
   components: {
-    TestApiComponent,
+    DepartmentInputComponent,
     MapComponent,
     LanguageTableComponent
   },
@@ -72,7 +72,7 @@ export default defineComponent({
 .top-container {
   width: 100%;
   text-align: center;
-  margin-bottom: 1rem;
+  margin: 2em;
 }
 
 .map-container {
