@@ -37,8 +37,10 @@ export class DataProcessingService {
       (total, { percentage }) => total + percentage,
       0
     );
-    const difference = 100 - sumOfPercentages;
-    percentages[0].percentage += difference;
+    if (percentages.length > 0) {
+      const difference = 100 - sumOfPercentages;
+      percentages[0].percentage += difference;
+    }
 
     return percentages;
   }

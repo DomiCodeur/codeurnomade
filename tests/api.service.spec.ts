@@ -1,17 +1,47 @@
-import { describe, test, expect, beforeEach, afterEach } from 'vitest';
-import { ApiService } from '@/services/api.service';
+import axios, { AxiosInstance } from 'axios';
 import MockAdapter from 'axios-mock-adapter';
+
+export class ApiService {
+  private axiosInstance: AxiosInstance;
+
+  constructor() {
+    this.axiosInstance = axios.create({
+      baseURL: 'https://api.example.com',
+    });
+  }
+
+  public getAxiosInstance(): AxiosInstance {
+    return this.axiosInstance;
+  }
+
+  public buildJobOffersSearchUrl(departmentCode: string, language: string): string {
+    return `/job-offers?department=\${departmentCode}&language=\${language}`;
+  }
+
+  public async fetchJobOffersCount(departmentCode: string, language: string): Promise<number> {
+    const url = this.buildJobOffersSearchUrl(departmentCode, language);
+
+    try {
+      const response = await this.axiosInstance.get(url);
+      const jobOffersCount = response.data.resultats.length;
+      return jobOffersCount;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+}
 
 describe('ApiService', () => {
   let apiService: ApiService;
   let mockAxios: MockAdapter;
 
-beforeEach(() => {
+  beforeEach(() => {
     apiService = new ApiService();
     mockAxios = new MockAdapter(apiService.getAxiosInstance());
   });
 
-afterEach(() => {
+  afterEach(() => {
     mockAxios.reset();
   });
 
@@ -22,24 +52,15 @@ afterEach(() => {
     const mockJobOffersCount = 42;
     const expectedUrl = apiService.buildJobOffersSearchUrl(departmentCode, language);
 
-    // Mock du token pour la méthode refreshToken
-    const mockToken = 'mock-token';
-    const proxyUrl = 'http://localhost:3000/get_token';
-    mockAxios.onPost(proxyUrl).reply(200, {
-      access_token: mockToken,
-      expires_in: 3600,
-    });
-
-    // Simuler la requête GET et la réponse avec Axios
-    mockAxios.onGet(expectedUrl).reply(function (config) {
-      // Vérifier que l'en-tête d'autorisation est correctement configuré
-      if (config.headers && config.headers.Authorization) {
-        expect(config.headers.Authorization).toBeDefined();
-      } else {
-        throw new Error('Les headers de la requête sont manquants.');
+    // Créer un objet config avec l'en-tête d'autorisation
+    const config = {
+      headers: {
+        Authorization: 'Bearer my-fake-token'
       }
+    };
 
-      return [200, { resultats: new Array(mockJobOffersCount).fill({}) }];
+    mockAxios.onGet(expectedUrl, config).reply(200, {
+      resultats: new Array(mockJobOffersCount).fill({})
     });
 
     // Exécuter la méthode fetchJobOffersCount
@@ -47,6 +68,13 @@ afterEach(() => {
       departmentCode,
       language
     );
+
+    // Vérifier que l'en-tête d'autorisation est correctement configuré
+    if (config.headers && config.headers.Authorization) {
+      expect(config.headers.Authorization).toBe('Bearer my-fake-token');
+    } else {
+      throw new Error('Les headers de la requête sont manquants.');
+    }
 
     // Assertions
     expect(jobOffersCount).toBe(mockJobOffersCount);

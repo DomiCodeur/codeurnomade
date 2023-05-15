@@ -14,12 +14,15 @@
     "baseUrl": ".",
     "types": [
       "jest",
-      "vite/client"
+      "vite/client",
+      "d3",
+      "node"
     ],
     "paths": {
       "@/*": [
         "src/*"
-      ]
+      ],
+      "d3": ["node_modules/d3/index.js"]
     },
     "lib": [
       "esnext",
@@ -33,8 +36,9 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
-  ],
+    "tests/**/*.tsx",
+    "assets/**/*"
+, "departements.geojson.d.ts", "src/plugins/api.service.ts"  ],
   "exclude": [
     "node_modules"
   ]
