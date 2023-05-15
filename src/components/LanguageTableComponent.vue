@@ -5,7 +5,7 @@
       {{ selectedDepartement }}
     </h2>
     <div v-if="loading" class="loading">
-      <img src="spinner.gif" alt="Chargement..." />
+      <img src="/spinner.gif" alt="Chargement..." />
     </div>
     <transition name="fade">
       <table v-if="!loading && languages.length">
