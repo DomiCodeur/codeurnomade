@@ -37,7 +37,7 @@ export class ApiService {
       return;
     }
 
-    const proxyUrl = process.env.VUE_APP_PROXY_URL || "http://localhost:3000/get_token";
+    const proxyUrl = (process.env.VUE_APP_PROXY_URL || "http://localhost:3000") + "/get_token";
 
     try {
       const response = await axios.post(proxyUrl);
