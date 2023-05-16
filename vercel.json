@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "env": {
+      "POLE_EMPLOI_CLIENT_ID": "@pole_emploi_client_id",
+      "POLE_EMPLOI_CLIENT_SECRET": "@pole_emploi_client_secret"
+    },
+    "builds": [
+      {
+        "src": "package.json",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/get_token",
+        "dest": "/get_token.js"
+      }
+    ]
+  }
+  
