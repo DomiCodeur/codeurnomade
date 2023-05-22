@@ -37,10 +37,10 @@ export class ApiService {
       return;
     }
 
-    const proxyUrl = process.env.VUE_APP_PROXY_URL;
+    const proxyUrl = import.meta.env.VITE_APP_PROXY_URL;
 
     if (!proxyUrl) {
-      throw new Error('VUE_APP_PROXY_URL is not defined');
+      throw new Error('VITE_APP_PROXY_URL is not defined');
     }
 
     try {
