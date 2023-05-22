@@ -37,7 +37,11 @@ export class ApiService {
       return;
     }
 
-    const proxyUrl = "https://codeurnomade.vercel.app/api/get_token";
+    const proxyUrl = process.env.VUE_APP_PROXY_URL;
+
+    if (!proxyUrl) {
+      throw new Error('VUE_APP_PROXY_URL is not defined');
+    }
 
     try {
       const response = await axios.post(proxyUrl);
