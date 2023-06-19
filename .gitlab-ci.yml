@@ -12,12 +12,12 @@ deploy_to_develop:
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
   script:
-    - curl -X POST https://api.vercel.com/v1/integrations/deploy/prj_uC46fEIrAc7SIJelykvXQn4p75el/3DKKwgyd0M
+    - curl -X POST https://api.vercel.com/v1/integrations/deploy/prj_uC46fEIrAc7SIJelykvXQn4p75el/ot0EpUFUSk/$VERCEL_DEV_TOKEN
 
 deploy_to_prod:
   stage: deploy
-  only:
-    - main
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "main"'
   script:
     - npm install -g vercel
-    - vercel --token=$VERCEL_TOKEN --prod
+    - vercel --token=https://api.vercel.com/v1/integrations/deploy/prj_uC46fEIrAc7SIJelykvXQn4p75el/yUB8SeMwsE/$VERCEL_PROD_TOKEN --prod
