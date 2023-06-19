@@ -4,13 +4,13 @@ stages:
 
 sast:
   stage: test
-include:
-  - template: Security/SAST.gitlab-ci.yml
+  include:
+    - template: Security/SAST.gitlab-ci.yml
 
 deploy_to_develop:
   stage: deploy
   rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+    - if: '$CI_COMMIT_REF_NAME == "develop"'
   script:
     - curl -X POST https://api.vercel.com/v1/integrations/deploy/45653312/ot0EpUFUSk
 
