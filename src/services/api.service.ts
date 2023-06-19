@@ -37,12 +37,11 @@ export class ApiService {
       return;
     }
 
-    const proxyUrl = import.meta.env.VITE_APP_PROXY_URL;
-
+    const proxyUrl = import.meta.env.VITE_APP_PROXY_URL + "/api/get_token";
+    
     if (!proxyUrl) {
       throw new Error('VITE_APP_PROXY_URL is not defined');
     }
-
     try {
       const response = await axios.post(proxyUrl);
       this.accessToken = response.data.access_token;

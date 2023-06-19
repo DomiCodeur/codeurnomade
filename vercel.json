@@ -3,7 +3,7 @@
     "env": {
       "POLE_EMPLOI_CLIENT_ID": "@pole_emploi_client_id",
       "POLE_EMPLOI_CLIENT_SECRET": "@pole_emploi_client_secret",
-      "VUE_APP_PROXY_URL":"@vue_app_proxy_url"
+      "VITE_APP_PROXY_URL":"@vite_app_proxy_url"
     },
     "routes": [
       {
