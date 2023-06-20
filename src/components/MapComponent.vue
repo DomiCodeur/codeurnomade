@@ -1,5 +1,7 @@
 <template>
-  <div id="france-map"></div>
+  <div class="map-container">
+    <div id="france-map"></div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -69,8 +71,23 @@ export default defineComponent({
 </script>
 
 <style>
+.map-container {
+  width: 100%;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .map-container {
+    padding-bottom: 40%;
+    position: relative;
+  }
+}
+
 #france-map {
-  width: 800px;
-  height: 600px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>

@@ -3,18 +3,21 @@
     <div class="top-container">
       <DepartmentInputComponent @departement-select="handleDepartementSelect" />
     </div>
-    <div class="map-container">
-      <MapComponent @departement-select="handleDepartementSelect" />
-    </div>
-    <div class="table-container">
-      <LanguageTableComponent
-        :languages="languages"
-        :selectedDepartement="selectedDepartement"
-        :loading="loading"
-      />
+    <div class="content-container">
+      <div class="map-container">
+        <MapComponent @departement-select="handleDepartementSelect" />
+      </div>
+      <div class="table-container">
+        <LanguageTableComponent
+          :languages="languages"
+          :selectedDepartement="selectedDepartement"
+          :loading="loading"
+        />
+      </div>
     </div>
   </div>
 </template>
+
 
 <script lang="ts">
 import { defineComponent, ref, getCurrentInstance } from "vue";
@@ -63,16 +66,18 @@ export default defineComponent({
 </script>
 
 <style>
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
 
 .top-container {
   width: 100%;
-  text-align: center;
+  align-items: center;
   margin: 2em;
+}
+
+.content-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .map-container {
@@ -81,6 +86,29 @@ export default defineComponent({
 }
 
 .table-container {
-  flex: 1;
+  align-self: center;
+}
+
+/* Media query pour les écrans de petite taille */
+@media (max-width: 768px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+  .content-container {
+    display: flex;
+    flex-direction: column;
+  }
+  .map-container {
+    flex: 1;
+    max-width: 50%;
+   margin-right: 50%;
+   margin-bottom: 20%;
+  }
+
+  .table-container {
+    margin-top: 70%;
+  }
+  
 }
 </style>
