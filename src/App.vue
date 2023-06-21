@@ -84,13 +84,18 @@ export default defineComponent({
   flex: 1;
   margin-right: 1rem;
 }
+.map-container {
+  flex: 1;
+  margin-right: 1rem;
+}
 
 .table-container {
-  align-self: center;
+  max-width: 600px;
+  margin-right: 3rem;
 }
 
 /* Media query pour les écrans de petite taille */
-@media (max-width: 768px) {
+@media (max-width: 1300px) {
   .container {
     display: flex;
     flex-direction: column;
@@ -103,11 +108,11 @@ export default defineComponent({
     flex: 1;
     max-width: 50%;
    margin-right: 50%;
-   margin-bottom: 20%;
   }
 
   .table-container {
     margin-top: 70%;
+    align-self: center;
   }
   
 }
