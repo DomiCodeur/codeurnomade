@@ -11,7 +11,7 @@ deploy_to_develop:
 deploy_to_prod:
   stage: deploy
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "main"'
+    - if: '$CI_COMMIT_REF_NAME == "main" || $CI_COMMIT_REF_NAME == "merge_request"'
   script:
     - npm install -g vercel
     - vercel --token=https://api.vercel.com/v1/integrations/deploy/prj_uC46fEIrAc7SIJelykvXQn4p75el/yUB8SeMwsE --prod
