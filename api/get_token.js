@@ -4,8 +4,8 @@ const axios = require("axios");
 module.exports = async (req, res) => {
   const tokenUrl =
     "https://entreprise.pole-emploi.fr/connexion/oauth2/access_token?realm=/partenaire";
-  const clientId = process.env.POLE_EMPLOI_CLIENT_ID;
-  const clientSecret = process.env.POLE_EMPLOI_CLIENT_SECRET;
+  const clientId = process.env.VITE_POLE_EMPLOI_CLIENT_ID;
+  const clientSecret = process.env.VITE_POLE_EMPLOI_CLIENT_SECRET;
   const grantType = "client_credentials";
   const scope = "api_offresdemploiv2 o2dsoffre";
 

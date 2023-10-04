@@ -54,6 +54,7 @@ export class ApiService {
       this.saveAccessTokenToLocalStorage(); // Enregistre le token dans le localStorage
     } catch (error) {
       console.error("Erreur lors de la récupération du token:", error);
+      throw error;  // Ajoutez cette ligne
     }
   }
 
