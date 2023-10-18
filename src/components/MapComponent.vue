@@ -7,17 +7,21 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch, EmitsOptions } from "vue";
 import * as d3 from "d3";
+import { Selection, BaseType } from "d3-selection";
+
 
 export default defineComponent({
   name: "MapComponent",
   emits: {
-    "departement-select": null, // Déclarez l'événement "departement-select"
+    "departement-select": null, 
   },
   setup(props, ctx) {
     // Fonction pour dessiner la carte de France
+    const lastClickedRegion = ref<Selection<BaseType | SVGPathElement, unknown, null, undefined> | null>(null);
+
     const drawFranceMap = async () => {
-      const width = 800; // Largeur de la carte
-      const height = 600; // Hauteur de la carte
+      const width = 800;
+      const height = 600;
 
       try {
         // Récupération du fichier GeoJSON
@@ -31,12 +35,11 @@ export default defineComponent({
           .attr("width", width)
           .attr("height", height);
 
-        // Définition de la projection de la carte
+      // Définition de la projection de la carte
         const projection = d3
           .geoMercator()
           .fitSize([width, height], franceDepartements);
 
-        // Définition de la fonction pour dessiner les chemins géographiques
         const pathGenerator = d3.geoPath().projection(projection);
 
         // Dessin de la carte
@@ -47,10 +50,17 @@ export default defineComponent({
           .attr("d", (d: any) => pathGenerator(d) as string)
           .attr("stroke", "#333")
           .attr("fill", "#ccc")
-          .on("click", (event: MouseEvent, d: any) => {
-            // Envoi de l'identifiant du département vers le composant parent
+          .on("click", function(event: MouseEvent, d: any) {
             const departementCode = d.properties.code;
             ctx.emit("departement-select", departementCode);
+
+            if (lastClickedRegion.value) {
+                lastClickedRegion.value.attr("fill", "#ccc");
+            }
+
+            d3.select(this).attr("fill", "#ADD8E6");
+            lastClickedRegion.value = d3.select(this);
+
             console.log("departmentcode", departementCode);
           });
       } catch (error) {
