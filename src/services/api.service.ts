@@ -1,10 +1,8 @@
 import axios, { AxiosInstance } from "axios";
 
 // Définition de l'interface pour la réponse de l'API
-interface JobOffer {
-  id: string;
-  libelle: string;
-}
+import {  JobOffer } from "@/types";
+
 
 interface JobOffersSearchResponse {
   resultats: JobOffer[];
@@ -88,6 +86,47 @@ export class ApiService {
   ): string {
     return `/offres/search?departement=${departmentCode}&motsCles=${language}`;
   }
+
+  // WS qui va chercher toutes les annonces pour un départementCode
+  public async fetchAllJobOffers(departmentCode: string): Promise<JobOffer[]> {
+    await this.refreshToken();
+  
+    let allOffers: JobOffer[] = [];
+    let start = 0;
+    let end = 149;
+    const rangeLimit = 150;  // Limite définie par l'API
+  
+    while (true) {
+     
+      if (start > 3000) {
+        break;  
+      }
+
+      if (end > 3149) {
+        end = 3149;  // Si 'end' dépasse 3149, on l'ajuste
+      }
+
+      const url = `/offres/search?departement=${departmentCode}&range=${start}-${end}`;
+      const response = await this.axiosInstance.get<JobOffersSearchResponse>(url, {
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+        },
+      });
+  
+      allOffers = [...allOffers, ...response.data.resultats];
+  
+      // Si le nombre d'offres retournées est inférieur à la limite, c'est qu'on a récupéré toutes les offres
+      if (response.data.resultats.length < rangeLimit || end == 3149) {
+        break;
+      }
+  
+      start += rangeLimit;
+      end += rangeLimit;
+    }
+  
+    return allOffers;
+}
+
 
   // Méthode pour récupérer le nombre d'offres d'emploi pour un département et un langage donnés
   public async fetchJobOffersCount(

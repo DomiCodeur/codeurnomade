@@ -1,8 +1,29 @@
-// data-processing.service.ts
-
-import { LanguagePercentage, JobOfferCounts } from "@/types";
+import { LanguagePercentage, JobOfferCounts, JobOffer } from "@/types";
 
 export class DataProcessingService {
+  
+  /**
+   * Transforme une offre d'emploi brute en un objet JobOffer.
+   * @param jsonOffer L'offre d'emploi brute.
+   * @returns Un objet JobOffer.
+   */
+  transformToJobOffer(jsonOffer: any): JobOffer {
+    return {
+      id: jsonOffer.id,
+      libelle: jsonOffer.intitule,
+      description: jsonOffer.description
+    };
+  }
+
+  /**
+   * Transforme un tableau d'offres d'emploi brutes en un tableau d'objets JobOffer.
+   * @param rawData Le tableau d'offres d'emploi brutes.
+   * @returns Un tableau d'objets JobOffer.
+   */
+  processJobOffers(rawData: any[]): JobOffer[] {
+    return rawData.map(this.transformToJobOffer);
+  }
+
   /**
    * Calcule le pourcentage de présence de chaque langage de programmation dans le département concerné, arrondi à l'entier le plus proche.
    * Trie ensuite les langages par pourcentage le plus haut et retourne un tableau d'objets avec le langage et son pourcentage.
