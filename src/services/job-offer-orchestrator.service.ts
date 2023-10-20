@@ -38,7 +38,7 @@ export class JobOfferOrchestratorService {
     for (const offer of jobOffers) {
       const description = offer.description.toLowerCase();
       for (const language of Object.keys(jobOfferCounts)) {
-        const regex = new RegExp(`\\b${escapeRegExp(language)}\\b`, "g");
+        const regex = new RegExp(`(^|\\s)${escapeRegExp(language)}(\\s|$)`, "g");
         const matches = description.match(regex);
         if (matches) {
           jobOfferCounts[language] += matches.length;
