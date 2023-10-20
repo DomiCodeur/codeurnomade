@@ -45,7 +45,12 @@ export class DataProcessingService {
     // Calcul des pourcentages de présence pour chaque langage et création d'un tableau d'objets avec le langage et son pourcentage
     const percentages: LanguagePercentage[] = languages.map((language) => {
       const jobOffersForLanguage = jobOfferCounts[language] || 0;
-      const percentage = (jobOffersForLanguage / totalJobOffers) * 100;
+      let percentage;
+      if (totalJobOffers !== 0) {
+        percentage = (jobOffersForLanguage / totalJobOffers) * 100;
+      } else {
+        percentage = 0;
+      }
       const roundedPercentage = Math.round(percentage);
       return { language, percentage: roundedPercentage };
     });
