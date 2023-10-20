@@ -89,7 +89,6 @@ export class ApiService {
 
   // WS qui va chercher toutes les annonces pour un départementCode
   public async fetchAllJobOffers(departmentCode: string): Promise<JobOffer[]> {
-    await this.refreshToken();
   
     let allOffers: JobOffer[] = [];
     let start = 0;
@@ -106,7 +105,7 @@ export class ApiService {
         end = 3149;  // Si 'end' dépasse 3149, on l'ajuste
       }
 
-      const url = `/offres/search?departement=${departmentCode}&range=${start}-${end}`;
+      const url = `/offres/search?departement=${departmentCode}&domaine=M18&range=${start}-${end}`;
       const response = await this.axiosInstance.get<JobOffersSearchResponse>(url, {
         headers: {
           Authorization: `Bearer ${this.accessToken}`,
