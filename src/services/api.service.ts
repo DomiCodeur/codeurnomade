@@ -89,7 +89,8 @@ export class ApiService {
 
   // WS qui va chercher toutes les annonces pour un départementCode
   public async fetchAllJobOffers(departmentCode: string): Promise<JobOffer[]> {
-  
+    await this.refreshToken();
+    
     let allOffers: JobOffer[] = [];
     let start = 0;
     let end = 149;
