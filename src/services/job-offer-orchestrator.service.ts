@@ -72,10 +72,8 @@ public async fetchJobOffersCountPerDepartment(language: string, updateData: (dat
   for (const departmentCode of departmentCodes) {
     try {
         const count = await this.apiService.fetchWithRetry(departmentCode, language);  
-        console.log("departmentcode "+ count);
-
         demandData[departmentCode] = count;
-        updateData({...demandData});  // Update data with the latest version of demandData
+        updateData({...demandData}); 
     } catch (error) {
         console.error('Erreur lors de la récupération des comptes des offres d\'emploi:', error);
     }

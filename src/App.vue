@@ -6,7 +6,9 @@
     </div>
     <div class="content-container">
       <div class="map-container">
-        <MapComponent :demandData="jobOffersCounts" :resetTrigger="resetTrigger" @departement-select="handleDepartementSelect"/>
+        <MapComponent :demandData="jobOffersCounts" :resetTrigger="resetTrigger" 
+        @departement-select="handleDepartementSelect"
+        @language-select="handleLanguageSelect"/>
       </div>
       <div class="table-container">
         <LanguageTableComponent
@@ -62,16 +64,14 @@ export default defineComponent({
 
     const handleLanguageSelect = async (language: string) => {
     try {
-        loading.value = true;
         await jobOfferOrchestratorInstance?.fetchJobOffersCountPerDepartment(language, (data: Record<string, number>) => {
             jobOffersCounts.value = data;
         });
     } catch (error) {
         console.error('Erreur lors de la récupération des comptes des offres d\'emploi:', error);
-    } finally {
-        loading.value = false;
-    }
-};
+    } 
+    };
+
       const resetMap = () => {
       resetTrigger.value = !resetTrigger.value;
     };

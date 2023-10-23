@@ -18,7 +18,7 @@ export default defineComponent({
   props: {
     demandData: {
       type: Object,
-      required: false,
+      required: true,
       default: () => ({}), 
     },
     selectedDepartement: {

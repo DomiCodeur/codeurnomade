@@ -17,7 +17,7 @@
   "java", "python", "javascript", "php", "golang", "c#", "kotlin", "c++", "ruby", "swift",
   "typescript", "bash", "shell", "r", "scala", "rust", "dart", "elixir", "erlang", "fortran",
   "haskell", "html", "css", "lua", "matlab", "objective-c", "perl", "powershell", "racket",
-  "scheme", "smalltalk", "sql", "vba", "webassembly", "xml", "xslt", "yaml"
+  "scheme", "smalltalk", "sql", "vba", "webassembly", "xml", "xslt", "yaml", "angular", "react", "vuejs"
 ];
 
   
@@ -29,13 +29,9 @@
   
       const checkAndEmitLanguage = () => {
         const language = inputValue.value.toLowerCase();
-        console.log('Emitting reset-map');  // Ajout d'un log
-
         ctx.emit("reset-map");  
         if (VALID_LANGUAGES.includes(language)) {
           showErrorPopup.value = false;
-          console.log('Emitting language-select');  // Ajout d'un log
-
           ctx.emit("language-select", language);
         } else {
           showErrorPopup.value = true;
