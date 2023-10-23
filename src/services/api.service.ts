@@ -90,7 +90,7 @@ export class ApiService {
   // WS qui va chercher toutes les annonces pour un départementCode
   public async fetchAllJobOffers(departmentCode: string): Promise<JobOffer[]> {
     await this.refreshToken();
-    
+
     let allOffers: JobOffer[] = [];
     let start = 0;
     let end = 149;
@@ -172,4 +172,23 @@ export class ApiService {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("accessTokenExpiration");
   }
+
+  public async fetchWithRetry(departmentCode: string, language: string, retries: number = 5): Promise<number> {
+    for (let i = 0; i < retries; i++) {
+        try {
+            const count = await this.fetchJobOffersCount(departmentCode, language);
+            return count;
+        } catch (error) {
+            if (error instanceof Error && 'status' in error && error.status === 429 && i < retries - 1) {  // Too Many Requests
+                console.warn('Too Many Requests, retrying in 1 second...');
+                await new Promise(resolve => setTimeout(resolve, 1000));  // Wait for 1 second before retrying
+            } else {
+                throw error;
+            }
+        }
+    }
+    throw new Error('Failed to fetch data after ' + retries + ' retries');
+}
+
+
 }

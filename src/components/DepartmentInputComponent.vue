@@ -22,11 +22,14 @@ export default defineComponent({
   name: "DepartmentInputComponent",
   emits: {
     "departement-select": null, // On déclare l'événement "departement-select"
+    "reset-map": null
   },
   setup(_, ctx) {
     const departementCode = ref(""); // On utilise une référence pour stocker le code du département
 
           const submitForm = () => {
+            ctx.emit("reset-map");  
+
         // Quand le formulaire est soumis, on vérifie que le code du département est valide
         // (de 01 à 19, de 21 à 95, ou 2A ou 2B pour la Corse), puis on émet l'événement "departement-select"
         const codeIsValid = /^(0[1-9]|[1-8]\d|9[0-5])$/.test(departementCode.value.toUpperCase());

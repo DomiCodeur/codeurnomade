@@ -1,11 +1,12 @@
 <template>
   <div class="container">
     <div class="top-container">
-      <DepartmentInputComponent @departement-select="handleDepartementSelect" />
+      <DepartmentInputComponent @reset-map="resetMap" @departement-select="handleDepartementSelect" />
+      <LanguageInputComponent @reset-map="resetMap" @language-select="handleLanguageSelect"/>
     </div>
     <div class="content-container">
       <div class="map-container">
-        <MapComponent @departement-select="handleDepartementSelect" />
+        <MapComponent :demandData="jobOffersCounts" :resetTrigger="resetTrigger" @departement-select="handleDepartementSelect"/>
       </div>
       <div class="table-container">
         <LanguageTableComponent
@@ -24,6 +25,7 @@ import { defineComponent, ref, getCurrentInstance } from "vue";
 import DepartmentInputComponent from "./components/DepartmentInputComponent.vue";
 import MapComponent from "./components/MapComponent.vue";
 import LanguageTableComponent from "./components/LanguageTableComponent.vue";
+import LanguageInputComponent from "./components/LanguageInputComponent.vue"; 
 import { LanguagePercentage } from "./types";
 
 export default defineComponent({
@@ -32,12 +34,15 @@ export default defineComponent({
     DepartmentInputComponent,
     MapComponent,
     LanguageTableComponent,
+    LanguageInputComponent,
   },
   setup() {
     const selectedDepartement = ref("");
     const languages = ref<LanguagePercentage[]>([]);
     const loading = ref(false);
-
+    const jobOffersCounts = ref<Record<string, number>>({});  
+    const resetTrigger = ref(false);
+    
     const jobOfferOrchestratorInstance =
       getCurrentInstance()?.appContext.config.globalProperties
         .$jobOfferOrchestratorService;
@@ -55,11 +60,33 @@ export default defineComponent({
       loading.value = false;
     };
 
+    const handleLanguageSelect = async (language: string) => {
+    try {
+        loading.value = true;
+        await jobOfferOrchestratorInstance?.fetchJobOffersCountPerDepartment(language, (data: Record<string, number>) => {
+            jobOffersCounts.value = data;
+        });
+    } catch (error) {
+        console.error('Erreur lors de la récupération des comptes des offres d\'emploi:', error);
+    } finally {
+        loading.value = false;
+    }
+};
+      const resetMap = () => {
+      resetTrigger.value = !resetTrigger.value;
+    };
+
+
+
     return {
       selectedDepartement,
       languages,
       handleDepartementSelect,
+      handleLanguageSelect, 
       loading,
+      jobOffersCounts, 
+      resetTrigger,
+      resetMap,
     };
   },
 });
