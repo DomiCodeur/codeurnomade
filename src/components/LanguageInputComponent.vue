@@ -2,11 +2,6 @@
   <div class="search-form">
     <input v-model="inputValue" placeholder="Entrez le nom d'un langage" class="search-input"/>
     <button @click="checkAndEmitLanguage" class="search-button">Rechercher</button>
-
-    <!-- Popup d'erreur -->
-    <div v-if="showErrorPopup" class="error-popup">
-      Langage non reconnu. Veuillez essayer à nouveau.
-    </div>
   </div>
 </template>
   
@@ -14,33 +9,35 @@
   import { defineComponent, ref, getCurrentInstance } from "vue";
   
   const VALID_LANGUAGES = [
-  "java", "python", "javascript", "php", "golang", "c#", "kotlin", "c++", "ruby", "swift",
-  "typescript", "bash", "shell", "r", "scala", "rust", "dart", "elixir", "erlang", "fortran",
-  "haskell", "html", "css", "lua", "matlab", "objective-c", "perl", "powershell", "racket",
-  "scheme", "smalltalk", "sql", "vba", "webassembly", "xml", "xslt", "yaml", "angular", "react", "vuejs"
+  "java", "python", "javascript", "php", "golang", "go", "c#", "csharp", "kotlin", 
+  "c++", "cpp", "ruby", "swift", "typescript", "ts", "bash", "shell", "r", "scala", 
+  "rust", "dart", "elixir", "erlang", "fortran", "haskell", "html", "css", "lua", 
+  "matlab", "objective-c", "obj-c", "perl", "powershell", "racket", "scheme", "lisp", 
+  "common-lisp", "clojure", "smalltalk", "sql", "vba", "webassembly", "wasm", "xml", 
+  "xslt", "yaml", "yml", "angular", "react", "vuejs", "vue", "nodejs", "node", "express", 
+  "django", "flask", "spring", "dotnet", "asp.net", "ruby-on-rails", "meteor", "ember", 
+  "backbone", "bootstrap", "tailwind", "svelte", "graphql", "webpack", "gulp", "grunt"
 ];
+
 
   
   export default defineComponent({
     name: "LanguageInputComponent",
     setup(props, ctx) {
       const inputValue = ref("");
-      const showErrorPopup = ref(false);
   
       const checkAndEmitLanguage = () => {
         const language = inputValue.value.toLowerCase();
         ctx.emit("reset-map");  
         if (VALID_LANGUAGES.includes(language)) {
-          showErrorPopup.value = false;
           ctx.emit("language-select", language);
         } else {
-          showErrorPopup.value = true;
+          alert("Langage non reconnu. Veuillez essayer à nouveau.");
         }
       };
   
       return {
         inputValue,
-        showErrorPopup,
         checkAndEmitLanguage,
       };
     },
@@ -77,9 +74,15 @@
   background-color: #0056b3;
 }
 
-.error-popup {
-  color: red;
-  margin-top: 10px;
+@media (max-width: 600px) {
+  .search-input, .search-button {
+    width: 100%;
+  }
+
+  .search-form {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
 </style>
   

@@ -39,8 +39,9 @@ export default defineComponent({
     const colorScale = ref(scaleLinear<string>().range(["#ADD8E6", "#00008B"]));
 
     const drawFranceMap = async () => {
+      
       const width = 800;
-      const height = 600;
+      const height = 700;
 
       try {
         // Récupération du fichier GeoJSON
@@ -54,7 +55,8 @@ export default defineComponent({
           .attr("height", height);
 
         // Définition de la projection de la carte
-        const projection = geoMercator()          
+        const scale = width / 800;
+        const projection = geoMercator().scale(scale)    
         .fitSize([width, height], franceDepartements);
 
         const pathGenerator = geoPath().projection(projection);
@@ -117,23 +119,23 @@ export default defineComponent({
 </script>
 
 <style>
+.map-container, #france-map {
+  margin: 0;
+  padding: 0;
+}
+
 .map-container {
-  width: 100%;
+  max-width: 100%;
+  max-height: 600px;
   position: relative;
 }
 
 @media (max-width: 768px) {
   .map-container {
-    padding-bottom: 40%;
-    position: relative;
+    height: auto; 
+    width: auto; 
+
   }
 }
 
-#france-map {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
 </style>

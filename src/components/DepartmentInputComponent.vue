@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="submitForm" class="search-form">
+    <form @submit.prevent="submitForm" placeholder="Entrez un numéro de département" class="search-form">
       <!-- On empêche le comportement par défaut du formulaire qui est de recharger la page -->
       <input
         type="text"
@@ -82,4 +82,17 @@ export default defineComponent({
 .search-button:hover {
   background-color: #0056b3;
 }
+/* CSS */
+@media (max-width: 600px) {
+  .search-input, .search-button {
+    width: 100%;
+  }
+
+  .search-form {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+ 
 </style>
