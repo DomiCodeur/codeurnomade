@@ -53,7 +53,6 @@ export class JobOfferOrchestratorService {
 
 // On recherche le nombre d'offre pour tous les departements, quand l'utilisateur a entré un langage
 public async fetchJobOffersCountPerDepartment(language: string, updateData: (data: Record<string, number>) => void): Promise<void> {
-  console.log(" test du fetchJobOffersCountPerDepartment");
   const departmentCodes = [
     "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",
     "11", "12", "13", "14", "15", "16", "17", "18", "19", "2A",
@@ -74,11 +73,11 @@ public async fetchJobOffersCountPerDepartment(language: string, updateData: (dat
         const count = await this.apiService.fetchWithRetry(departmentCode, language);  
         demandData[departmentCode] = count;
         updateData({...demandData}); 
-    } catch (error) {
-        console.error('Erreur lors de la récupération des comptes des offres d\'emploi:', error);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des comptes des offres d\'emploi pour le département', departmentCode, ":", error);
     }
-}
-
-}
+  }
+    
+  }
 
 }

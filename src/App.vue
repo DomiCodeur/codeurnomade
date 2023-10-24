@@ -50,6 +50,7 @@ export default defineComponent({
         .$jobOfferOrchestratorService;
 
     const handleDepartementSelect = async (departementCode: string) => {
+      jobOffersCounts.value = {}; // Remettre les comptes d'offres d'emploi à zéro
       loading.value = true;
       selectedDepartement.value = departementCode;
       const fetchedLanguages =
@@ -60,17 +61,21 @@ export default defineComponent({
         languages.value = fetchedLanguages;
       }
       loading.value = false;
+      resetTrigger.value = false;  // on reinitialise le trigger
     };
 
     const handleLanguageSelect = async (language: string) => {
+      jobOffersCounts.value = {}; // Remettre les comptes d'offres d'emploi à zéro
     try {
         await jobOfferOrchestratorInstance?.fetchJobOffersCountPerDepartment(language, (data: Record<string, number>) => {
             jobOffersCounts.value = data;
+            resetMap();
         });
+        resetTrigger.value = false; // Remise à false après la réinitialisation de la carte
     } catch (error) {
         console.error('Erreur lors de la récupération des comptes des offres d\'emploi:', error);
     } 
-    };
+};
 
       const resetMap = () => {
       resetTrigger.value = !resetTrigger.value;
