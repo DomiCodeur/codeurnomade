@@ -105,19 +105,21 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 }
 
 .content-container {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
 }
 
 
 
 /* Media query pour les écrans de petite taille (mobiles) */
-@media (max-width: 768px) {
+@media (max-width: 1100px) {
   .top-container {
     flex-direction: column;
     align-items: center;

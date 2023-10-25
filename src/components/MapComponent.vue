@@ -40,8 +40,9 @@ export default defineComponent({
 
     const drawFranceMap = async () => {
       
-      const width = 800;
-      const height = 700;
+      const width = window.innerWidth > 768 ? 800 : window.innerWidth;
+      const height = window.innerWidth > 768 ? 700 : window.innerWidth * (700 / 800);
+
 
       try {
         // Récupération du fichier GeoJSON
@@ -132,9 +133,8 @@ export default defineComponent({
 
 @media (max-width: 768px) {
   .map-container {
-    height: auto; 
-    width: auto; 
-
+    width: 100%;
+    height: auto;
   }
 }
 

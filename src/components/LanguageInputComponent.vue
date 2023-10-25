@@ -49,7 +49,7 @@
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin: 2rem 0;
+  margin: 0.5rem 0;
 }
 
 .search-input {

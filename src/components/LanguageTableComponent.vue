@@ -52,9 +52,11 @@ export default defineComponent({
 <style scoped>
 .rounded-container {
   border: 1px solid #ddd;
+  max-width: 400px;
+  min-width: 200px;
   border-radius: 15px;
   padding: 2rem;
-  margin: 1rem;
+  margin-top: 3rem;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
 }
 
