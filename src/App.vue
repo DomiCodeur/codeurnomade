@@ -11,11 +11,17 @@
         @language-select="handleLanguageSelect"/>
       </div>
       <div class="table-container">
-        <LanguageTableComponent
-          :languages="languages"
-          :selectedDepartement="selectedDepartement"
-          :loading="loading"
-        />
+        <div class="table-container">
+          <div class="table-container">
+          <LanguageTableComponent
+            v-if="!languageSelected"
+            :languages="languages"
+            :selectedDepartement="selectedDepartement"
+            :loading="loading"
+          />
+          <ColorLegendComponent/>
+        </div>
+        </div>
       </div>
     </div>
   </div>
@@ -29,6 +35,8 @@ import MapComponent from "./components/MapComponent.vue";
 import LanguageTableComponent from "./components/LanguageTableComponent.vue";
 import LanguageInputComponent from "./components/LanguageInputComponent.vue"; 
 import { LanguagePercentage } from "./types";
+import ColorLegendComponent from "./components/ColorLegendComponent.vue";
+
 
 export default defineComponent({
   name: "App",
@@ -37,6 +45,7 @@ export default defineComponent({
     MapComponent,
     LanguageTableComponent,
     LanguageInputComponent,
+    ColorLegendComponent
   },
   setup() {
     const selectedDepartement = ref("");
@@ -44,6 +53,8 @@ export default defineComponent({
     const loading = ref(false);
     const jobOffersCounts = ref<Record<string, number>>({});  
     const resetTrigger = ref(false);
+    const languageSelected = ref(false);
+
     
     const jobOfferOrchestratorInstance =
       getCurrentInstance()?.appContext.config.globalProperties
@@ -51,6 +62,7 @@ export default defineComponent({
 
     const handleDepartementSelect = async (departementCode: string) => {
       jobOffersCounts.value = {}; // Remettre les comptes d'offres d'emploi à zéro
+      languageSelected.value = false;
       loading.value = true;
       selectedDepartement.value = departementCode;
       const fetchedLanguages =
@@ -66,6 +78,7 @@ export default defineComponent({
 
     const handleLanguageSelect = async (language: string) => {
       jobOffersCounts.value = {}; // Remettre les comptes d'offres d'emploi à zéro
+      languageSelected.value = true;
     try {
         await jobOfferOrchestratorInstance?.fetchJobOffersCountPerDepartment(language, (data: Record<string, number>) => {
             jobOffersCounts.value = data;
@@ -83,6 +96,8 @@ export default defineComponent({
 
 
 
+
+
     return {
       selectedDepartement,
       languages,
@@ -92,6 +107,7 @@ export default defineComponent({
       jobOffersCounts, 
       resetTrigger,
       resetMap,
+      languageSelected
     };
   },
 });
