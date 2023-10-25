@@ -19,7 +19,7 @@
             :selectedDepartement="selectedDepartement"
             :loading="loading"
           />
-          <ColorLegendComponent/>
+          <ColorLegendComponent v-if="languageSelected"/>
         </div>
         </div>
       </div>
