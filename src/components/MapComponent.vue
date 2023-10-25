@@ -133,7 +133,7 @@ export default defineComponent({
 
 @media (max-width: 768px) {
   .map-container {
-    width: 100%;
+    max-width: 768px;
     height: auto;
   }
 }
