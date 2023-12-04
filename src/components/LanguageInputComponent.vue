@@ -16,7 +16,8 @@
   "common-lisp", "clojure", "smalltalk", "sql", "vba", "webassembly", "wasm", "xml", 
   "xslt", "yaml", "yml", "angular", "react", "vuejs", "vue", "nodejs", "node", "express", 
   "django", "flask", "spring", "dotnet", "asp.net", "ruby-on-rails", "meteor", "ember", 
-  "backbone", "bootstrap", "tailwind", "svelte", "graphql", "webpack", "gulp", "grunt"
+  "backbone", "bootstrap", "tailwind", "svelte", "graphql", "webpack", "gulp", "grunt", 
+  "nuxt", "nuxtjs", "sage", "nextjs", "next"
 ];
 
 
