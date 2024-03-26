@@ -1,8 +1,7 @@
 import axios, { AxiosInstance } from "axios";
 
 // Définition de l'interface pour la réponse de l'API
-import {  JobOffer } from "@/types";
-
+import { JobOffer } from "@/types";
 
 interface JobOffersSearchResponse {
   resultats: JobOffer[];
@@ -14,9 +13,9 @@ export class ApiService {
   private accessTokenExpiration: Date | null = null;
 
   constructor() {
-    // Crée une instance d'Axios avec l'URL de base de l'API Pole Emploi
+    // Crée une instance d'Axios avec l'URL de base de l'API France travail
     this.axiosInstance = axios.create({
-      baseURL: "https://api.pole-emploi.io/partenaire/offresdemploi/v2",
+      baseURL: "https://api.francetravail.io/partenaire/offresdemploi/v2",
     });
 
     // Récupère le token depuis le local storage lors de la création de l'instance
@@ -36,9 +35,9 @@ export class ApiService {
     }
 
     const proxyUrl = import.meta.env.VITE_APP_PROXY_URL + "/api/get_token";
-    
+
     if (!proxyUrl) {
-      throw new Error('VITE_APP_PROXY_URL is not defined');
+      throw new Error("VITE_APP_PROXY_URL is not defined");
     }
     try {
       const response = await axios.post(proxyUrl);
@@ -52,7 +51,7 @@ export class ApiService {
       this.saveAccessTokenToLocalStorage(); // Enregistre le token dans le localStorage
     } catch (error) {
       console.error("Erreur lors de la récupération du token:", error);
-      throw error;  
+      throw error;
     }
   }
 
@@ -94,39 +93,40 @@ export class ApiService {
     let allOffers: JobOffer[] = [];
     let start = 0;
     let end = 149;
-    const rangeLimit = 150;  // Limite définie par l'API
-  
+    const rangeLimit = 150; // Limite définie par l'API
+
     while (true) {
-     
       if (start > 3000) {
-        break;  
+        break;
       }
 
       if (end > 3149) {
-        end = 3149;  // Si 'end' dépasse 3149, on l'ajuste
+        end = 3149; // Si 'end' dépasse 3149, on l'ajuste
       }
 
       const url = `/offres/search?departement=${departmentCode}&domaine=M18&range=${start}-${end}`;
-      const response = await this.axiosInstance.get<JobOffersSearchResponse>(url, {
-        headers: {
-          Authorization: `Bearer ${this.accessToken}`,
-        },
-      });
-  
+      const response = await this.axiosInstance.get<JobOffersSearchResponse>(
+        url,
+        {
+          headers: {
+            Authorization: `Bearer ${this.accessToken}`,
+          },
+        }
+      );
+
       allOffers = [...allOffers, ...response.data.resultats];
-  
+
       // Si le nombre d'offres retournées est inférieur à la limite, c'est qu'on a récupéré toutes les offres
       if (response.data.resultats.length < rangeLimit || end == 3149) {
         break;
       }
-  
+
       start += rangeLimit;
       end += rangeLimit;
     }
-  
-    return allOffers;
-}
 
+    return allOffers;
+  }
 
   // Méthode pour récupérer le nombre d'offres d'emploi pour un département et un langage donnés
   public async fetchJobOffersCount(
@@ -173,22 +173,30 @@ export class ApiService {
     localStorage.removeItem("accessTokenExpiration");
   }
 
-  public async fetchWithRetry(departmentCode: string, language: string, retries: number = 5): Promise<number> {
+  public async fetchWithRetry(
+    departmentCode: string,
+    language: string,
+    retries: number = 5
+  ): Promise<number> {
     for (let i = 0; i < retries; i++) {
-        try {
-            const count = await this.fetchJobOffersCount(departmentCode, language);
-            return count;
-        } catch (error) {
-            if (error instanceof Error && 'status' in error && error.status === 429 && i < retries - 1) {  // Too Many Requests
-                console.warn('Too Many Requests, retrying in 1 second...');
-                await new Promise(resolve => setTimeout(resolve, 1000));  // Wait for 1 second before retrying
-            } else {
-                throw error;
-            }
+      try {
+        const count = await this.fetchJobOffersCount(departmentCode, language);
+        return count;
+      } catch (error) {
+        if (
+          error instanceof Error &&
+          "status" in error &&
+          error.status === 429 &&
+          i < retries - 1
+        ) {
+          // Too Many Requests
+          console.warn("Too Many Requests, retrying in 1 second...");
+          await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before retrying
+        } else {
+          throw error;
         }
+      }
     }
-    throw new Error('Failed to fetch data after ' + retries + ' retries');
-}
-
-
+    throw new Error("Failed to fetch data after " + retries + " retries");
+  }
 }

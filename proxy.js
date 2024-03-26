@@ -5,15 +5,13 @@ const axios = require("axios");
 
 const app = express();
 
-
- app.use(cors());
-
+app.use(cors());
 
 // Route pour obtenir le token
 app.post("/api/get_token", async (req, res) => {
-  console.log("on est dans api gettoken")
+  console.log("on est dans api gettoken");
   const tokenUrl =
-    "https://entreprise.pole-emploi.fr/connexion/oauth2/access_token?realm=/partenaire";
+    "https://entreprise.francetravail.fr/connexion/oauth2/access_token?realm=/partenaire";
   const clientId = process.env.VITE_POLE_EMPLOI_CLIENT_ID;
   const clientSecret = process.env.VITE_POLE_EMPLOI_CLIENT_SECRET;
   const grantType = "client_credentials";
@@ -38,12 +36,12 @@ app.post("/api/get_token", async (req, res) => {
   }
 });
 
-// Route pour faire des requêtes à l'API Pole Emploi
+// Route pour faire des requêtes à l'API France travail
 app.all("/api/*", async (req, res) => {
   try {
-
-    // L'URL de base de l'API Pole Emploi
-    const apiBaseUrl = "https://api.emploi-store.fr/partenaire/offresdemploi/v2";
+    // L'URL de base de l'API France travail
+    const apiBaseUrl =
+      "https://api.emploi-store.fr/partenaire/offresdemploi/v2";
 
     const response = await axios.request({
       url: req.originalUrl.replace(/^\/api/, ""),
