@@ -20,8 +20,8 @@ Codeur Nomade est un outil gratuit qui aide les développeurs juniors à trouver
 - Carte de France interactive
 - Affichage des langages de programmation les plus demandés par département
 
-
 ## Technologies utilisées
+
 - Vue.js
 - API France Travail
 - Axios
@@ -30,10 +30,9 @@ Codeur Nomade est un outil gratuit qui aide les développeurs juniors à trouver
 
 1. Clonez ce dépôt
 2. Installez les dépendances en exécutant npm install
-3. Ajoutez un fichier .env et collez y vos POLE_EMPLOI_CLIENT_ID= et POLE_EMPLOI_CLIENT_SECRET=. Vous pouvez les obtenir en faisant une demande sur https://pole-emploi.io/
+3. Ajoutez un fichier .env et collez y vos POLE_EMPLOI_CLIENT_ID= et POLE_EMPLOI_CLIENT_SECRET=. Vous pouvez les obtenir en faisant une demande sur https://francetravail.io/
 4. Pour lancer l'application en mode développement, exécutez npm run dev
 5. Accédez à l'application à l'adresse http://localhost:3000 dans votre navigateur
-
 
 ## Langages de programmation pris en charge
 
@@ -49,12 +48,13 @@ Codeur Nomade est un outil gratuit qui aide les développeurs juniors à trouver
 10 - Swift
 
 ## API de France Travail
-L'application utilise l'API France travail pour rechercher les offres d'emploi par département et par langage de programmation. Un exemple de requête GET est le suivant : https://api.pole-emploi.io/partenaire/offresdemploi/v2/offres/search?departement=92&motsCles=php
 
+L'application utilise l'API France travail pour rechercher les offres d'emploi par département et par langage de programmation. Un exemple de requête GET est le suivant : https://api.francetravail.io/partenaire/offresdemploi/v2/offres/search?departement=92&motsCles=php
 
 ## Contributions
+
 N'hésitez pas à contribuer à ce projet en soumettant des issues ou des pull requests.
 
-
 ## License
+
 Ce projet est sous licence MIT.
