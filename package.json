@@ -4,6 +4,9 @@
   "description": "A shopping list application built with Vue.js, JSON server, and Axios.",
   "main": "index.js",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "serve": "concurrently \"npm run start-proxy\" \"vite\"",
     "start-proxy": "node proxy.js",
